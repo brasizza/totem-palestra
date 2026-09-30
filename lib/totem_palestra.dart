@@ -11,4 +11,8 @@ class TotemPalestra {
   Future<String?> getPlatformVersion() {
     return TotemPalestraPlatform.instance.getPlatformVersion();
   }
+
+  Future<void> printLine(String text) {
+    return TotemPalestraPlatform.instance.printLine(text);
+  }
 }

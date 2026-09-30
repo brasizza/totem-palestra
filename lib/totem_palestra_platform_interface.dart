@@ -1,6 +1,6 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'totem_palestra_method_channel.dart';
+import 'totem_palestra_pigeon.dart';
 
 abstract class TotemPalestraPlatform extends PlatformInterface {
   
@@ -8,7 +8,7 @@ abstract class TotemPalestraPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static TotemPalestraPlatform _instance = MethodChannelTotemPalestra();
+  static TotemPalestraPlatform _instance = PigeonTotemPalestra();
   
   static TotemPalestraPlatform get instance => _instance;
   
@@ -19,5 +19,9 @@ abstract class TotemPalestraPlatform extends PlatformInterface {
 
   Future<String?> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
+  }
+
+  Future<void> printLine(String text) {
+    throw UnimplementedError('printLine() has not been implemented.');
   }
 }

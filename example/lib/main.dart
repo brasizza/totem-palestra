@@ -17,7 +17,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+  String _printStatus = '';
   final _totemPalestraPlugin = TotemPalestra();
+  final _textController = TextEditingController(text: 'Hello from Flutter!');
 
   @override
   void initState() {
@@ -47,6 +49,28 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  Future<void> _printLine() async {
+    String status;
+    try {
+      await _totemPalestraPlugin.printLine(_textController.text);
+      status = 'Printed!';
+    } on PlatformException catch (e) {
+      status = 'Print failed: ${e.code} ${e.message}';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _printStatus = status;
+    });
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -54,8 +78,21 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Text('Running on: $_platformVersion\n'),
+              TextField(controller: _textController),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _printLine,
+                child: const Text('Print line'),
+              ),
+              const SizedBox(height: 16),
+              Text(_printStatus),
+            ],
+          ),
         ),
       ),
     );
